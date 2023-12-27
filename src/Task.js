@@ -9,6 +9,16 @@ const Task = ({ task, onDelete, onEdit }) => {
     setIsEditing(false);
   };
 
+  const handleInputChange = (e) => {
+    setEditedTask(e.target.value);
+  };
+
+  const handleInputkeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSave();
+    }
+  };
+
   return (
     <div>
       {isEditing ? (
@@ -16,7 +26,8 @@ const Task = ({ task, onDelete, onEdit }) => {
           <input
             type="text"
             value={editedTask}
-            onChange={(e) => setEditedTask(e.target.value)}
+            onChange={handleInputChange}
+            onKeyDown={handleInputkeyDown}
           />
           <button onClick={handleSave}> Save</button>
         </div>
