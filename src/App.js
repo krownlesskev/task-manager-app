@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TaskList from "./TaskList";
 
 const App = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: "Task 1" },
-    { id: 2, title: "Task 2" },
-  ]);
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks
+      ? JSON.parse(storedTasks)
+      : [
+          { id: 1, title: "Task 1" },
+          { id: 2, title: "Task 2" },
+        ];
+  });
 
   const [newTask, setNewTask] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleDelete = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId));
