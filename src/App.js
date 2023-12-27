@@ -37,6 +37,16 @@ const App = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setNewTask(e.target.value);
+  };
+
+  const handleInputkeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddTask();
+    }
+  };
+
   return (
     <div>
       <h1>Task Manager</h1>
@@ -45,7 +55,8 @@ const App = () => {
           type="text"
           placeholder="New Task"
           value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
+          onChange={handleInputChange}
+          onKeyDown={handleInputkeyDown}
         />
         <button onClick={handleAddTask}>Add Task</button>
       </div>
