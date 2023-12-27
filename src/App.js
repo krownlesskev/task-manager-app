@@ -13,11 +13,22 @@ const App = () => {
   });
 
   const [newTask, setNewTask] = useState("");
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+    const storedDarkMode = localStorage.getItem("darkMode");
+    return storedDarkMode ? JSON.parse(storedDarkMode) : false;
+  });
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    // Save dark mode preference to local storage
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+
+    // Apply dark mode class to the body
+    document.body.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   const handleDelete = (taskId) => {
     setTasks(tasks.filter((task) => task.id !== taskId));
