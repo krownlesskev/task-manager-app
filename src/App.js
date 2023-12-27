@@ -48,17 +48,23 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Task Manager</h1>
-      <div>
+    <div className="container mx-auto mt-10 p-5 bg-white rounded shadow">
+      <h1 className="text-3xl font-bold mb-6">Task Manager</h1>
+      <div className="flex mb-4">
         <input
           type="text"
+          className="border rounded py-2 px-3 mr-2 w-2/3"
           placeholder="New Task"
           value={newTask}
           onChange={handleInputChange}
           onKeyDown={handleInputkeyDown}
         />
-        <button onClick={handleAddTask}>Add Task</button>
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded w-1/3"
+          onClick={handleAddTask}
+        >
+          Add Task
+        </button>
       </div>
       <TaskList tasks={tasks} onDelete={handleDelete} onEdit={handleEdit} />
     </div>
