@@ -7,3 +7,7 @@
     background-color: #1a202c;
     color: gray;
   }
+
+.dark input {
+  color: gray;
+}
