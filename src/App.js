@@ -13,6 +13,7 @@ const App = () => {
   });
 
   const [newTask, setNewTask] = useState("");
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -41,15 +42,36 @@ const App = () => {
     setNewTask(e.target.value);
   };
 
-  const handleInputkeyDown = (e) => {
+  const handleInputKeyDown = (e) => {
     if (e.key === "Enter") {
       handleAddTask();
     }
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle("dark", darkMode);
+  };
+
   return (
-    <div className="container mx-auto mt-10 p-5 bg-white rounded shadow">
-      <h1 className="text-3xl font-bold mb-6">Task Manager</h1>
+    <div
+      className={`container mx-auto mt-10 p-5 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-white"
+      } rounded shadow transition-all`}
+    >
+      <div className="flex justify-between items-center mb-4">
+        <h1 className=" text-3xl font-bold">
+          {darkMode ? "Task Manager" : "Task Manager (Dark Mode)"}
+        </h1>
+        <button
+          className={`bg-${
+            darkMode ? "gray-900" : "blue-500"
+          } text-white py-2 px-4 rounded`}
+          onClick={toggleDarkMode}
+        >
+          {darkMode ? "Light Mode" : "Dark Mode"}
+        </button>
+      </div>
       <div className="flex mb-4">
         <input
           type="text"
@@ -57,7 +79,7 @@ const App = () => {
           placeholder="New Task"
           value={newTask}
           onChange={handleInputChange}
-          onKeyDown={handleInputkeyDown}
+          onKeyDown={handleInputKeyDown}
         />
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded w-1/3"
