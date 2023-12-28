@@ -12,7 +12,12 @@ const App = () => {
         ];
   });
 
-  const [newTask, setNewTask] = useState("");
+  const [newTask, setNewTask] = useState({
+    title: "",
+    description: "",
+    dueDate: "",
+  });
+
   const [darkMode, setDarkMode] = useState(() => {
     const storedDarkMode = localStorage.getItem("darkMode");
     return storedDarkMode ? JSON.parse(storedDarkMode) : false;
@@ -43,14 +48,24 @@ const App = () => {
   };
 
   const handleAddTask = () => {
-    if (newTask.trim() !== "") {
-      setTasks([...tasks, { id: Date.now(), title: newTask }]);
-      setNewTask("");
+    if (newTask.title.trim() !== "") {
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        {
+          id: new Date().getTime(),
+          ...newTask,
+        },
+      ]);
+      setNewTask({
+        title: "",
+        description: "",
+        dueDate: "",
+      });
     }
   };
 
   const handleInputChange = (e) => {
-    setNewTask(e.target.value);
+    setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
   const handleInputKeyDown = (e) => {
@@ -71,12 +86,12 @@ const App = () => {
       } rounded shadow transition-all`}
     >
       <div className="flex justify-between items-center mb-4">
-        <h1 className=" text-3xl font-bold">
-          {darkMode ? "Task Manager" : "Task Manager (Dark Mode)"}
+        <h1 className="text-3xl font-bold">
+          {darkMode ? "Task Manager (Dark Mode)" : "Task Manager"}
         </h1>
         <button
           className={`bg-${
-            darkMode ? "gray-900" : "blue-500"
+            darkMode ? "gray-700" : "blue-500"
           } text-white py-2 px-4 rounded`}
           onClick={toggleDarkMode}
         >
@@ -86,20 +101,39 @@ const App = () => {
       <div className="flex mb-4">
         <input
           type="text"
-          className="border rounded py-2 px-3 mr-2 w-2/3"
+          className="border rounded py-2 px-3 mr-2 w-1/3 text-black placeholder-gray-500"
           placeholder="New Task"
-          value={newTask}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
+          value={newTask.title}
+          onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+        />
+        <input
+          type="text"
+          className="border rounded py-2 px-3 mr-2 w-1/3 text-black placeholder-gray-500"
+          placeholder="Description"
+          value={newTask.description}
+          onChange={(e) =>
+            setNewTask({ ...newTask, description: e.target.value })
+          }
+        />
+        <input
+          type="date"
+          className="border rounded py-2 px-3 w-1/3 text-gray-500"
+          value={newTask.dueDate}
+          onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })}
         />
         <button
-          className="bg-blue-500 text-white py-2 px-4 rounded w-1/3"
+          className="bg-blue-500 text-white py-2 px-4 rounded"
           onClick={handleAddTask}
         >
           Add Task
         </button>
       </div>
-      <TaskList tasks={tasks} onDelete={handleDelete} onEdit={handleEdit} />
+      <TaskList
+        tasks={tasks}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        darkMode={darkMode}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Task = ({ task, onDelete, onEdit }) => {
+const Task = ({ task, onDelete, onEdit, darkMode }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ ...task });
 
@@ -20,7 +20,11 @@ const Task = ({ task, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="bg-gray-10 p-4 rounded mb-4">
+    <div
+      className={`bg-gray-100 p-4 rounded mb-4 ${
+        darkMode ? "text-white" : "text-black"
+      }`}
+    >
       {isEditing ? (
         <div>
           <input
@@ -32,7 +36,8 @@ const Task = ({ task, onDelete, onEdit }) => {
             onChange={handleInputChange}
             onKeyDown={handleInputkeyDown}
           />
-          <textarea
+          <input
+            type="text"
             className="border rounded py-2 px-3 mb-2"
             placeholder="Description"
             name="description"
@@ -41,15 +46,15 @@ const Task = ({ task, onDelete, onEdit }) => {
             onKeyDown={handleInputkeyDown}
           />
           <input
-            className="border rounded py-2 px-3 mb-2"
             type="date"
+            className="border rounded py-2 px-3 mb-2"
             name="dueDate"
             value={editedTask.dueDate}
             onChange={handleInputChange}
             onKeyDown={handleInputkeyDown}
           />
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            className={`bg-blue-500 text-white py-2 px-4 rounded`}
             onClick={handleSave}
           >
             Save
@@ -57,17 +62,27 @@ const Task = ({ task, onDelete, onEdit }) => {
         </div>
       ) : (
         <div>
-          <p className="text-xl font-semibold mb-2">{task.title}</p>
-          <p>{task.description}</p>
-          <p>Due Date: {task.dueDate}</p>
+          <p
+            className={`text-xl font-semibold mb-2 ${
+              darkMode ? "text-black" : "text-black"
+            }`}
+          >
+            {task.title}
+          </p>
+          <p className={`mb-2 ${darkMode ? "text-gray-600" : "text-black"}`}>
+            {task.description}
+          </p>
+          <p className={`mb-2 ${darkMode ? "text-gray-600" : "text-black"}`}>
+            Due Date: {task.dueDate}
+          </p>
           <button
-            className="bg-gray-400 text-white py-1 px-3 rounded mr-2"
+            className={`bg-gray-500 text-white py-1 px-3 rounded mr-2`}
             onClick={() => setIsEditing(true)}
           >
             Edit
           </button>
           <button
-            className="bg-red-500 text-white py-1 px-3 rounded"
+            className={`bg-red-600 text-white py-1 px-3 rounded`}
             onClick={() => onDelete(task.id)}
           >
             Delete
