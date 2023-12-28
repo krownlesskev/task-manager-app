@@ -34,10 +34,10 @@ const App = () => {
     setTasks(tasks.filter((task) => task.id !== taskId));
   };
 
-  const handleEdit = (taskId, newTitle) => {
+  const handleEdit = (taskId, updatedTask) => {
     setTasks(
       tasks.map((task) =>
-        task.id === taskId ? { ...task, title: newTitle } : task
+        task.id === taskId ? { ...task, ...updatedTask } : task
       )
     );
   };
