@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TaskList from "./TaskList";
+import TaskList from "./components/TaskList";
 
 const App = () => {
   const [tasks, setTasks] = useState(() => {
